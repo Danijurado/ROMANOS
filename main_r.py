@@ -32,6 +32,12 @@ dic_entero_a_romano = {
 dic_romano_a_entero = {
     'I':1, 'V':5, 'X':10, 'L':50, 'C':100, 'D':500, 'M':1000
 }
+
+restas = {'I':('V', 'X'),
+          'X':('L','C'),
+          'C':('D', 'M')}
+
+
 def entero_a_romano(num:int)->str:
    
 
@@ -53,7 +59,6 @@ print("funcion en accion",entero_a_romano(3))
 
 
 def romano_a_entero(rom:str) -> int:
-    lista = list(rom)
     
     valor_entero = 0
     caracter_anterior = ''
@@ -62,6 +67,9 @@ def romano_a_entero(rom:str) -> int:
     for caracter in rom:
         
         if caracter == caracter_anterior:
+            if caracter_anterior == 'L' or caracter_anterior == 'D' or caracter_anterior == 'V':
+                raise RomanNumberError('No se puede repetir los valores L, D, V')
+            
             cont_repes += 1
         else:
             cont_repes = 1
@@ -72,17 +80,23 @@ def romano_a_entero(rom:str) -> int:
         
         if dic_romano_a_entero.get(caracter_anterior, 0) < dic_romano_a_entero.get(caracter):
             valor_entero -= dic_romano_a_entero.get(caracter_anterior, 0)*2
+        
+        if dic_romano_a_entero.get(caracter_anterior) < dic_romano_a_entero.get(caracter):
+            if caracter_anterior == 'V' or caracter_anterior == 'L' or caracter_anterior == 'D':
+                raise RomanNumberError(f'El simbolo romano {caracter_anterior} no se puede restar')
+            
+            if caracter_anterior and caracter not in restas[caracter_anterior]:
+                raise RomanNumberError(f'El simbolo romano {caracter_anterior} solo se puede restar de {restas[caracter_anterior][0]} y {restas[caracter_anterior][1]}')
+            
+            
+            valor_entero -= dic_romano_a_entero.get(caracter_anterior)*2
             
         caracter_anterior = caracter
-        
-        valor_entero += dic_romano_a_entero.get(caracter)
-        
+        valor_entero += dic_romano_a_entero.get(caracter_anterior)*2
     return valor_entero
-            
-      
-        #valor_entero +=dic_romano_a_entero.get(i)       
+                
    
         
-print('romano a entero:', romano_a_entero('XI'))
+print('romano a entero:', romano_a_entero('IX'))
 
  
