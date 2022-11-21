@@ -56,18 +56,32 @@ def romano_a_entero(rom:str) -> int:
     lista = list(rom)
     
     valor_entero = 0
+    caracter_anterior = ''
+    cont_repes = 0
     
-    for i in rom:
-        ''''
-        if i != len(lista)-1:
+    for caracter in rom:
+        
+        if caracter == caracter_anterior:
+            cont_repes += 1
+        else:
+            cont_repes = 1
             
-            if dic_romano_a_entero.get(lista [i]) < dic_romano_a_entero.get(lista[i+1]):
-                valor_entero += dic_romano_a_entero.get(lista [i+1]) - dic_romano_a_entero.get(lista[i])
-            else:
-                valor_entero += dic_romano_a_entero.get(lista[i])
-        '''
-        valor_entero +=dic_romano_a_entero.get(i)       
+        if cont_repes > 3:
+            raise RomanNumberError('No se puede repetir el valor mas de tres veces')
+        
+        
+        if dic_romano_a_entero.get(caracter_anterior, 0) < dic_romano_a_entero.get(caracter):
+            valor_entero -= dic_romano_a_entero.get(caracter_anterior, 0)*2
+            
+        caracter_anterior = caracter
+        
+        valor_entero += dic_romano_a_entero.get(caracter)
+        
     return valor_entero
+            
+      
+        #valor_entero +=dic_romano_a_entero.get(i)       
+   
         
 print('romano a entero:', romano_a_entero('XI'))
 
