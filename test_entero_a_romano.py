@@ -21,4 +21,4 @@ def test_romano_a_entero_restar_a_izquierda():
 def test_romano_a_entero_no_repetir_mas_de_tres():
     with pytest.raises(RomanNumberError) as exceptionInfo:
         romano_a_entero('LIIII')
-        assert str(excetionInfo.value) == 'No se puede repetir el valor mas de tres veces'   
+        assert str(exceptionInfo.value) == 'No se puede repetir el valor mas de tres veces'   
